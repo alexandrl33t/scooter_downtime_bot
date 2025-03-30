@@ -1,0 +1,6 @@
+.env
+venv
+.idea
+.ruff_cache
+db.db
+bot.log
