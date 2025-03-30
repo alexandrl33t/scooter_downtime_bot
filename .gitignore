@@ -4,3 +4,4 @@ venv
 .ruff_cache
 db.db
 bot.log
+google_keys.json

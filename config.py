@@ -26,3 +26,5 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger("bot_log")
+
+GOOGLE_JSON, GOOGLE_SHEET_NAME = 'google_keys.json', os.getenv('GOOGLE_DOC_NAME')

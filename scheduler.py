@@ -1,5 +1,6 @@
-from config import logger  # Если используешь логирование
+from config import logger, GOOGLE_JSON, GOOGLE_SHEET_NAME
 from database import Database
+from google_sheets import update_google_sheet
 from utils import get_downtime, clean_old_history
 
 
@@ -11,7 +12,7 @@ def job():
     for chat_id, in chats:
         result = get_downtime(chat_id)
         downtime_data.update(result)
-
+        update_google_sheet(downtime_data, GOOGLE_JSON, GOOGLE_SHEET_NAME)
     logger.info(f"Downtime data received")
 
 
