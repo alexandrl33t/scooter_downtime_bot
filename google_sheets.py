@@ -35,17 +35,12 @@ def update_google_sheet(downtime_data: dict, json_keyfile: str, sheet_name: str)
         except gspread.exceptions.WorksheetNotFound:
             # Если листа нет — создаем его
             worksheet = sheet.add_worksheet(title=chat_name, rows=200, cols=90)
-            worksheet.update([["Парковка"]], "A1")
             worksheet.update([[today]], "B1")
 
-        existing_parkings = worksheet.col_values(1)
-
-        # Если список парковок пуст, записываем его
-        if not existing_parkings:
-            parking_list = list(parkings.keys())
-            worksheet.update([["Парковка"]] + [[p] for p in parking_list] + [["Общий простой (мин)"]], "A1")
-            existing_parkings = ["Парковка"] + parking_list
-            # Получаем все заголовки колонок
+        parking_list = list(parkings.keys())
+        worksheet.update([["Парковка"]] + [[p] for p in parking_list] + [["Общий простой (мин)"]], "A1")
+        existing_parkings = ["Парковка"] + parking_list
+        # Получаем все заголовки колонок
 
         # Проверяем, есть ли колонка с сегодняшней датой, иначе создаем
         header_row = worksheet.row_values(1)
@@ -65,7 +60,7 @@ def update_google_sheet(downtime_data: dict, json_keyfile: str, sheet_name: str)
             sum_downtime += downtime
             updates.append({"range": f"{chr(64 + date_col_idx)}{row_idx}", "values": [[downtime]]})
 
-        last_parking_row = len(existing_parkings)
+        last_parking_row = len(existing_parkings) + 1
 
         updates.append({"range": f"{chr(64 + date_col_idx)}{last_parking_row}", "values": [[sum_downtime]]})
         if updates:
